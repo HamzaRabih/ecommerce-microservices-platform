@@ -1,0 +1,31 @@
+#spring:
+#  cloud:
+#    gateway:
+#      server:
+#        webflux:
+#          routes:
+#            - id : r1
+#              uri: http://localhost:8081
+#              predicates:
+#                - Path=/customers/**
+#            - id : r2
+#              uri: http://localhost:8082
+#              predicates:
+#                - Path=/products/**
+
+
+## aprés l'implementation de discovery service
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id : r1
+              uri: lb://CUSTOMER-SERVICE
+              predicates:
+                - Path=/customers/**
+            - id : r2
+              uri: http://INVENTORY-SERVICE
+              predicates:
+                - Path=/products/**
