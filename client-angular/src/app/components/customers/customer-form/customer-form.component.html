@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h1>{{ editMode ? 'Edit Customer' : 'Add New Customer' }}</h1>
+
+    <div class="card form-card">
+        <form (ngSubmit)="saveCustomer()">
+            <div class="form-group">
+                <label for="name">Name *</label>
+                @if (editMode){
+                    <input
+                            type="hidden"
+                            id="id"
+                            [(ngModel)]="customer.id"
+                            name="id"
+                            required
+                            disabled>
+                }
+                <input
+                        type="text"
+                        id="name"
+                        [(ngModel)]="customer.name"
+                        name="name"
+                        required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input
+                        type="email"
+                        id="email"
+                        [(ngModel)]="customer.email"
+                        name="email"
+                        required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success" [disabled]="loading">
+                    {{ loading ? 'Saving...' : (editMode ? 'Update' : 'Create') }}
+                </button>
+                <a routerLink="/customers" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="message" [ngClass]="'alert alert-' + messageType">
+        {{ message }}
+    </div>
+</div>
+</body>
+</html>

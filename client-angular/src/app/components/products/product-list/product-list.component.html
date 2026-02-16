@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Products</h1>
+        <a routerLink="/products/new" class="btn btn-primary">Add New Product</a>
+    </div>
+
+    <div class="search-box">
+        <input
+                type="text"
+                placeholder="Search products..."
+                [(ngModel)]="searchTerm"
+                (keyup)="search()">
+    </div>
+
+    <div *ngIf="loading" class="spinner">
+        <div class="loading"></div>
+        <p>Loading products...</p>
+    </div>
+
+    <div *ngIf="!loading && products.length > 0" class="card">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Stock Value</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let product of products">
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>${{ product.price | number:'1.2-2' }}</td>
+                <td>
+                <span [ngClass]="product.quantity > 5 ? 'badge-success' : 'badge-warning'" class="badge">
+                  {{ product.quantity }}
+                </span>
+                </td>
+                <td>${{ (product.price * product.quantity) | number:'1.2-2' }}</td>
+                <td>
+                    <a [routerLink]="['/products/edit', product.id]" class="btn-action btn-edit">Edit</a>
+                    <button (click)="deleteProduct(product.id)" class="btn-action btn-delete">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="!loading && products.length === 0" class="card">
+        <p class="no-data">No products found. <a routerLink="/products/new">Create one</a></p>
+    </div>
+
+    <div *ngIf="message" [ngClass]="'alert alert-' + messageType">
+        {{ message }}
+    </div>
+</div>
+</body>
+</html>

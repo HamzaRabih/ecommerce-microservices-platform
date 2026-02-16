@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bills</title>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Bills</h1>
+        <a routerLink="/bills/new" class="btn btn-primary">Create New Bill</a>
+    </div>
+
+    <div *ngIf="loading" class="spinner">
+        <div class="loading"></div>
+        <p>Loading bills...</p>
+    </div>
+
+    <div *ngIf="!loading && bills.length > 0" class="card">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer ID</th>
+                <th>Date</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let bill of bills">
+                <td>{{ bill.id }}</td>
+                <td>{{ bill.customerId }}</td>
+                <td>{{ bill.billDate | date:'short' }}</td>
+                <td>{{ bill.productItems?.length || 0 }}</td>
+                <td>{{ getTotalAmount(bill) | number:'1.2-2' }}</td>
+
+                <td>
+                    <a [routerLink]="['/bills', bill.id]" class="btn-action btn-view">View</a>
+                    <a [routerLink]="['/bills/edit', bill.id]" class="btn-action btn-edit">Edit</a>
+                    <button (click)="deleteBill(bill.id)" class="btn-action btn-delete">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="!loading && bills.length === 0" class="card">
+        <p class="no-data">No bills found. <a routerLink="/bills/new">Create one</a></p>
+    </div>
+
+    <div *ngIf="message" [ngClass]="'alert alert-' + messageType">
+        {{ message }}
+    </div>
+</div>
+</body>
+</html>

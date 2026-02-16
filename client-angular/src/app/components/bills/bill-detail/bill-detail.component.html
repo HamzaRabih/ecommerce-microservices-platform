@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bills</title>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Bill Details</h1>
+        <a routerLink="/bills" class="btn btn-secondary">Back to Bills</a>
+    </div>
+
+    <div *ngIf="loading" class="spinner">
+        <div class="loading"></div>
+        <p>Loading bill...</p>
+    </div>
+
+    <div *ngIf="!loading && bill" class="card">
+        <div class="bill-header">
+            <div class="bill-info">
+                <div class="info-group">
+                    <label>Bill ID:</label>
+                    <strong>{{ bill.id }}</strong>
+                </div>
+                <div class="info-group">
+                    <label>Customer:</label>
+                    <strong>{{ bill.customer?.name }} ({{ bill.customer?.email }})</strong>
+                </div>
+                <div class="info-group">
+                    <label>Date:</label>
+                    <strong>{{ bill.billDate | date:'medium' }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="items-section">
+            <h2>Order Items</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Subtotal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of bill.productItems">
+                    <td>{{ item.product?.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.price | number:'1.2-2' }}</td>
+                    <td>${{ (item.quantity * item.price) | number:'1.2-2' }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="summary-section">
+            <div class="summary-item">
+                <span>Number of Items:</span>
+                <strong>{{ bill.productItems?.length || 0 }}</strong>
+            </div>
+            <div class="summary-item total">
+                <span>Total Amount:</span>
+                <strong>{{ getTotalAmount(bill) | number:'1.2-2' }}</strong>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a [routerLink]="['/bills/edit', bill.id]" class="btn btn-primary">Edit Bill</a>
+            <a routerLink="/bills" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+
+    <div *ngIf="!loading && !bill" class="card">
+        <p class="error">Bill not found</p>
+    </div>
+
+    <div *ngIf="message" [ngClass]="'alert alert-' + messageType">
+        {{ message }}
+    </div>
+</div>
+</body>
+</html>

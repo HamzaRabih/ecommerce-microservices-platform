@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Customers</h1>
+        <a routerLink="/customers/new" class="btn btn-primary">Add New Customer</a>
+    </div>
+
+    <div class="search-box">
+        <input
+                type="text"
+                placeholder="Search customers..."
+                [(ngModel)]="searchTerm"
+                (keyup)="search()">
+    </div>
+
+    <div *ngIf="loading" class="spinner">
+        <div class="loading"></div>
+        <p>Loading customers...</p>
+    </div>
+
+    <div *ngIf="!loading && customers.length > 0" class="card">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let customer of customers">
+                <td>{{ customer.id }}</td>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.email }}</td>
+                <td>
+                    <a [routerLink]="['/customers/edit', customer.id]" class="btn-action btn-edit">Edit</a>
+                    <button (click)="deleteCustomer(customer.id)" class="btn-action btn-delete">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="!loading && customers.length === 0" class="card">
+        <p class="no-data">No customers found. <a routerLink="/customers/new">Create one</a></p>
+    </div>
+
+    <div *ngIf="message" [ngClass]="'alert alert-' + messageType">
+        {{ message }}
+    </div>
+</div>
+</body>
+</html>

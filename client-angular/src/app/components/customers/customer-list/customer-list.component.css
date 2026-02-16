@@ -1,0 +1,64 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-box {
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.btn-action {
+    padding: 6px 12px;
+    margin-right: 5px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-edit {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.no-data {
+    text-align: center;
+    padding: 20px;
+    color: #999;
+}
+
+.no-data a {
+    color: #667eea;
+    text-decoration: none;
+}

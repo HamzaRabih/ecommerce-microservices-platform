@@ -1,7 +1,6 @@
 package ma.rabih.enset.iibdcc.eommsapp.billingservice.feing;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import ma.rabih.enset.iibdcc.eommsapp.billingservice.model.Customer;
 import ma.rabih.enset.iibdcc.eommsapp.billingservice.model.Product;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

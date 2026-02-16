@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bills</title>
+</head>
+<body>
+<div class="container">
+    <h1>{{ editMode ? 'Edit Bill' : 'Create New Bill' }}</h1>
+
+    <div class="card form-card">
+        <form (ngSubmit)="saveBill()">
+            <div class="form-section">
+                <h2>Customer Information</h2>
+
+                <div class="form-group">
+                    <label for="customer">Select Customer *</label>
+                    <select
+                            id="customer"
+                            [(ngModel)]="bill.customerId"
+                            name="customerId"
+                            required>
+                        <option [value]="null" disabled>Choose a customer...</option>
+                        <option *ngFor="let customer of customers" [value]="customer.id">
+                            {{ customer.name }} ({{ customer.email }})
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>Products</h2>
+
+                <div class="products-header">
+                    <h3>Add Products to Bill</h3>
+                    <div class="add-product-group">
+                        <select [(ngModel)]="selectedProductId" name="selectedProduct">
+                            <option [value]="null" disabled>Choose a product...</option>
+                            <option *ngFor="let product of products" [value]="product.id">
+                                {{ product.name }} - ${{ product.price }}
+                            </option>
+                        </select>
+                        <input
+                                type="number"
+                                [(ngModel)]="selectedQuantity"
+                                name="selectedQuantity"
+                                placeholder="Quantity"
+                                min="1">
+                        <button type="button" (click)="addProductToBill()" class="btn btn-primary">
+                            Add
+                        </button>
+                    </div>
+                </div>
+
+                <div *ngIf="bill.productItems && bill.productItems.length > 0" class="items-table">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Subtotal</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let item of bill.productItems; let i = index">
+                            <td>{{ getProductName(item.productId) }}</td>
+                            <td><input type="number" [(ngModel)]="item.quantity" (change)="calculateTotal()" [name]="'qty_' + i"></td>
+                            <td>${{ item.price | number:'1.2-2' }}</td>
+                            <td>${{ (item.quantity * item.price) | number:'1.2-2' }}</td>
+                            <td>
+                                <button type="button" (click)="removeProductFromBill(i)" class="btn btn-danger btn-sm">
+                                    Remove
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div *ngIf="!bill.productItems || bill.productItems.length === 0" class="no-items">
+                    <p>No products added yet. Select a product above and click "Add".</p>
+                </div>
+            </div>
+
+            <div class="form-section summary">
+                <div class="total">
+                    <strong>Total Amount:</strong>
+                    <span>${{ bill.totalAmount | number:'1.2-2' }}</span>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success" [disabled]="loading || !bill.customerId">
+                    {{ loading ? 'Saving...' : (editMode ? 'Update' : 'Create') }}
+                </button>
+                <a routerLink="/bills" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+
+    <div *ngIf="message" [ngClass]="'alert alert-' + messageType">
+        {{ message }}
+    </div>
+</div>
+</body>
+</html>

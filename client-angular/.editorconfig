@@ -1,0 +1,31 @@
+# Editor configuration properties/* You can add global styles to this file, and also import other style files */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+indent_size = 2[*.{scss,css}]# SCSS/CSS filesindent_size = 2[*.json]# JSON filesindent_size = 2[*.html]# HTML filesindent_size = 2[*.ts]# TypeScript filestrim_trailing_whitespace = trueinsert_final_newline = trueindent_size = 2indent_style = spacecharset = utf-8[*]# All filesroot = true# top-most EditorConfig file# EditorConfig is awesome: https://EditorConfig.org
